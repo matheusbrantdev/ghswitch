@@ -2,6 +2,8 @@ package cmd
 
 import (
 	"fmt"
+	"os"
+	"path/filepath"
 
 	"github.com/charmbracelet/huh"
 	"github.com/matheusbrantdev/ghswitch/internal/profile"
@@ -40,6 +42,22 @@ func runRemove(_ *cobra.Command, _ []string) error {
 		return err
 	}
 
+	var confirm bool
+
+	if err := huh.NewConfirm().
+		Title("Remove profile \"" + name + "\"?").
+		Affirmative("No").
+		Negative("Yes").
+		Value(&confirm).
+		Run(); err != nil {
+		return err
+	}
+
+	if confirm {
+		fmt.Println("Aborted.")
+		return nil
+	}
+
 	updated := make([]profile.Profile, 0, len(profiles)-1)
 	for _, p := range profiles {
 		if p.Name != name {
@@ -49,6 +67,12 @@ func runRemove(_ *cobra.Command, _ []string) error {
 
 	if err := profile.Save(updated); err != nil {
 		return err
+	}
+
+	active, _ := profile.ActiveName()
+	if active == name {
+		home, _ := os.UserHomeDir()
+		os.Remove(filepath.Join(home, ".ghswitch", "active"))
 	}
 
 	fmt.Printf("Profile %q removed.\n", name)

@@ -57,6 +57,26 @@ func Save(profiles []Profile) error {
 	return os.WriteFile(path, data, 0600)
 }
 
+func ActiveName() (string, error) {
+	home, err := os.UserHomeDir()
+	if err != nil {
+		return "", err
+	}
+	data, err := os.ReadFile(filepath.Join(home, ".ghswitch", "active"))
+	if os.IsNotExist(err) {
+		return "", nil
+	}
+	return string(data), err
+}
+
+func SetActive(name string) error {
+	home, err := os.UserHomeDir()
+	if err != nil {
+		return err
+	}
+	return os.WriteFile(filepath.Join(home, ".ghswitch", "active"), []byte(name), 0600)
+}
+
 func Add(p Profile) error {
 	profiles, err := Load()
 	if err != nil {

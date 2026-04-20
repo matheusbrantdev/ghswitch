@@ -55,11 +55,24 @@ func runAdd(_ *cobra.Command, _ []string) error {
 		SSHKey:   sshKey,
 	}
 
+	existing, err := profile.Load()
+	if err != nil {
+		return err
+	}
+	isFirst := len(existing) == 0
+
 	if err := profile.Add(p); err != nil {
 		return err
 	}
 
 	fmt.Printf("Profile %q saved\n", name)
+
+	if isFirst {
+		if err := runUse(nil, []string{name}); err != nil {
+			return err
+		}
+	}
+
 	return nil
 }
 
