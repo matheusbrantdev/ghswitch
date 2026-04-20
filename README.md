@@ -5,7 +5,7 @@ Switch between multiple GitHub accounts on the same machine — SSH keys and Git
 ## Install
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/matheusbrantdev/ghswitch/main/install.sh | sh
+curl -sSL https://raw.githubusercontent.com/matheusbrantdev/ghswitch/main/install.sh | sudo sh
 ```
 
 Restart your terminal after installing.
