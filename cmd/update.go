@@ -61,6 +61,7 @@ func runUpdate(_ *cobra.Command, _ []string) error {
 
 	form := huh.NewForm(
 		huh.NewGroup(
+			huh.NewInput().Title("Profile name").Value(&current.Name),
 			huh.NewInput().Title("Git name").Value(&current.GitName),
 			huh.NewInput().Title("Git email").Value(&current.GitEmail),
 			huh.NewSelect[string]().Title("SSH key").Options(keyOptions...).Value(&current.SSHKey),
@@ -84,6 +85,6 @@ func runUpdate(_ *cobra.Command, _ []string) error {
 		return err
 	}
 
-	fmt.Printf("Profile %q updated.\n", name)
+	fmt.Printf("Profile %q updated.\n", current.Name)
 	return nil
 }
