@@ -19,6 +19,7 @@ ghswitch list       # list all profiles
 ghswitch update     # edit a profile
 ghswitch remove     # remove a profile
 ghswitch reset      # delete all profiles
+ghswitch undo       # restore SSH and Git config to pre-ghswitch state
 ```
 
 ## How it works
