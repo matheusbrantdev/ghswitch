@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/matheusbrantdev/ghswitch/internal/backup"
 	"github.com/matheusbrantdev/ghswitch/internal/git"
 	"github.com/matheusbrantdev/ghswitch/internal/profile"
 	internalssh "github.com/matheusbrantdev/ghswitch/internal/ssh"
@@ -35,6 +36,12 @@ func runUse(_ *cobra.Command, args []string) error {
 
 	if p == nil {
 		return fmt.Errorf("profile %q not found", name)
+	}
+
+	if !backup.Exists() {
+		if err := backup.Save(); err != nil {
+			return fmt.Errorf("saving backup: %w", err)
+		}
 	}
 
 	if err := internalssh.SetGitHubKey(p.SSHKey); err != nil {
