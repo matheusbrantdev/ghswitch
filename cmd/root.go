@@ -22,4 +22,5 @@ func Execute() {
 func init() {
 	rootCmd.AddCommand(addCmd)
 	rootCmd.AddCommand(resetCmd)
+	rootCmd.AddCommand(removeCmd)
 }
